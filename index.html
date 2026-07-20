@@ -146,10 +146,10 @@
   .reel video{width:100%;height:100%;object-fit:cover;display:block}
   .reel .tag{position:absolute;left:14px;bottom:14px;z-index:3;font-family:'Space Grotesk';font-weight:600;
     font-size:.82rem;padding:6px 14px;border-radius:100px;background:rgba(5,1,14,.6);backdrop-filter:blur(8px);border:1px solid var(--line);color:#fff}
-  .vfallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;z-index:2;
-    background:radial-gradient(circle at 50% 40%,rgba(124,58,237,.26),transparent 70%),var(--bg-2)}
-  .vfallback .play{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;
-    background:linear-gradient(135deg,var(--v1),var(--v3));box-shadow:0 0 32px rgba(124,58,237,.6)}
+  .vfallback{position:absolute;inset:0;display:grid;place-items:center;z-index:2;cursor:pointer;
+    background:radial-gradient(circle at 50% 50%,rgba(5,1,14,.4),rgba(5,1,14,.05) 60%);transition:.3s var(--ease)} .vfallback:hover{background:radial-gradient(circle at 50% 50%,rgba(5,1,14,.55),rgba(5,1,14,.12) 60%)}
+  .vfallback .play{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto;transition:.3s var(--ease);
+    background:linear-gradient(135deg,var(--v1),var(--v3));box-shadow:0 0 32px rgba(124,58,237,.6)} .vfallback:hover .play{transform:scale(1.08)}
   .vfallback small{color:var(--muted-2);display:block;margin-top:6px;font-size:.78rem}
   .vfallback strong{font-family:'Space Grotesk'}
 
@@ -280,28 +280,28 @@
 
       <div class="reels">
         <div class="reel reveal d1">
-          <video controls playsinline preload="metadata">
+          <video controls playsinline preload="metadata" poster="posters/film-poster.jpg">
             <source src="videos/۱۰۳.MP4" type="video/mp4" />
             <source src="https://challency.com/wp-content/uploads/2026/07/FUTEEN_03.mp4" type="video/mp4" />
           </video>
           <span class="tag">The Film</span>
-          <div class="vfallback"><div><div class="play"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><strong>FUTEEN</strong><small>videos/۱۰۳.MP4</small></div></div>
+          <div class="vfallback"><div class="play"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div></div>
         </div>
         <div class="reel reveal d2">
-          <video controls playsinline preload="metadata">
+          <video controls playsinline preload="metadata" poster="posters/teaser01-poster.jpg">
             <source src="videos/101.MP4" type="video/mp4" />
             <source src="https://challency.com/wp-content/uploads/2026/07/FUTEEN_-01.mov" type="video/quicktime" />
           </video>
           <span class="tag">Teaser 01</span>
-          <div class="vfallback"><div><div class="play"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><small>videos/101.MP4</small></div></div>
+          <div class="vfallback"><div class="play"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div></div>
         </div>
         <div class="reel reveal d3">
-          <video controls playsinline preload="metadata">
+          <video controls playsinline preload="metadata" poster="posters/teaser02-poster.jpg">
             <source src="videos/102.1.MP4" type="video/mp4" />
             <source src="https://challency.com/wp-content/uploads/2026/07/FUTEEN_02.mov" type="video/quicktime" />
           </video>
           <span class="tag">Teaser 02</span>
-          <div class="vfallback"><div><div class="play"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><small>videos/102.1.MP4</small></div></div>
+          <div class="vfallback"><div class="play"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div></div>
         </div>
       </div>
     </div>
@@ -420,8 +420,8 @@
   });
 
   // hide fallback overlay when a real video loads
-  document.querySelectorAll('.reel video').forEach(v=>{
-    v.addEventListener('loadeddata',()=>{const f=v.parentElement.querySelector('.vfallback');if(f)f.style.display='none';});
+  document.querySelectorAll('.reel').forEach(reel=>{const v=reel.querySelector('video');const f=reel.querySelector('.vfallback');if(!v||!f)return;
+    f.addEventListener('click',()=>{v.play();});v.addEventListener('play',()=>{f.style.display='none';});v.addEventListener('pause',()=>{f.style.display='grid';});v.addEventListener('ended',()=>{f.style.display='grid';});
   });
 
   // particle constellation
